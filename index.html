@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toyota Vehicle Maintenance</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: url('your-background.jpg') no-repeat center center fixed;
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .container {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        padding: 30px;
+        width: 320px;
+        text-align: center;
+    }
+
+    h2 {
+        color: #1c503b;
+        margin-bottom: 20px;
+    }
+
+    input[type="text"], input[type="password"] {
+        width: 90%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+    }
+
+    button {
+        width: 95%;
+        background-color: #1c503b;
+        color: white;
+        border: none;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #184433;
+    }
+
+    p {
+        margin-top: 15px;
+    }
+
+    a {
+        color: #1c503b;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- USER LOGIN -->
+    <div id="userLogin">
+        <h2>User Login</h2>
+        <input type="text" placeholder="Username" id="userLoginUsername">
+        <input type="password" placeholder="Password" id="userLoginPassword">
+        <button onclick="login('user')">Login</button>
+        <p>Don't have an account? <a href="#" onclick="showPage('userRegister')">Register here</a></p>
+        <p>Are you an Admin? <a href="#" onclick="showPage('adminLogin')">Admin Login</a></p>
+    </div>
+
+    <!-- USER REGISTER -->
+    <div id="userRegister" class="hidden">
+        <h2>User Register</h2>
+        <input type="text" placeholder="Choose Username" id="userRegUsername">
+        <input type="password" placeholder="Choose Password" id="userRegPassword">
+        <button onclick="register('user')">Register</button>
+        <p>Already have an account? <a href="#" onclick="showPage('userLogin')">Login here</a></p>
+        <p>Admin? <a href="#" onclick="showPage('adminLogin')">Admin Login</a></p>
+    </div>
+
+    <!-- ADMIN LOGIN -->
+    <div id="adminLogin" class="hidden">
+        <h2>Admin Login</h2>
+        <input type="text" placeholder="Admin Username" id="adminLoginUsername">
+        <input type="password" placeholder="Admin Password" id="adminLoginPassword">
+        <button onclick="login('admin')">Login</button>
+        <p>Don't have an admin account? <a href="#" onclick="showPage('adminRegister')">Register here</a></p>
+        <p>Go back to <a href="#" onclick="showPage('userLogin')">User Login</a></p>
+    </div>
+
+    <!-- ADMIN REGISTER -->
+    <div id="adminRegister" class="hidden">
+        <h2>Admin Register</h2>
+        <input type="text" placeholder="Choose Admin Username" id="adminRegUsername">
+        <input type="password" placeholder="Choose Admin Password" id="adminRegPassword">
+        <button onclick="register('admin')">Register</button>
+        <p>Already an admin? <a href="#" onclick="showPage('adminLogin')">Login here</a></p>
+        <p>Go back to <a href="#" onclick="showPage('userLogin')">User Login</a></p>
+    </div>
+
+</div>
+
+<script>
+function showPage(pageId) {
+    document.querySelectorAll('.container > div').forEach(div => div.classList.add('hidden'));
+    document.getElementById(pageId).classList.remove('hidden');
+}
+
+function register(type) {
+    let username = document.getElementById(type + 'RegUsername').value;
+    let password = document.getElementById(type + 'RegPassword').value;
+    if(username && password){
+        localStorage.setItem(type + 'User', username);
+        localStorage.setItem(type + 'Pass', password);
+        alert(type.charAt(0).toUpperCase() + type.slice(1) + ' registered successfully!');
+        showPage(type + 'Login');
+    } else {
+        alert('Please fill all fields.');
+    }
+}
+
+function login(type) {
+    let username = document.getElementById(type + 'LoginUsername').value;
+    let password = document.getElementById(type + 'LoginPassword').value;
+    let storedUser = localStorage.getItem(type + 'User');
+    let storedPass = localStorage.getItem(type + 'Pass');
+
+    if(username === storedUser && password === storedPass) {
+        alert(`Welcome ${type === 'admin' ? 'Admin' : 'User'} ${username}!`);
+        if(type === 'admin'){
+            window.location.href = "admin.html";
+        } else {
+            window.location.href = "dashboard.html";
+        }
+    } else {
+        alert('Invalid username or password.');
+    }
+}
+</script>
+
+</body>
+</html>
